@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <form>
+        <h5>Upload questions file...</h5>
+        <div class="form-group">
+          <input type="file" name="fileUplaod" id="fileUpload" multiple ng2FileSelect [uploader]="uploader">
+        </div>
+          <button class="btn btn-dark" [disabled]="!uploader.queue[0]" (click)="uploader.queue[0].upload()">Submit</button>
+      </form>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>

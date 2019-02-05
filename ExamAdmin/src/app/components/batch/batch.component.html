@@ -1,0 +1,67 @@
+<div class="container">
+  <h1 style="margin-top:20px">Create Batch</h1>
+  <div class="row">
+    <div class="col">
+      <form style="margin-top:20px;">
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="Name">choose class:</label>
+              <select class="form-control" [(ngModel)]="class" name="class">
+                <option value="" selected disabled>Select class</option>
+                <option *ngFor="let class of classes" [ngValue]="class">{{ class }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-danger my-4" [disabled]="!class" (click)="GetStudentsOfClass()" type="submit">
+              <i class="fa fa-arrow-circle-right"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col"></div>
+    <div class="col-1"></div>
+  </div>
+
+  <div class="stdentsTable" *ngIf="students.length>0">
+    <table id="t01">
+      <tr>
+        <th>No.</th>
+        <th>Student Name</th>
+        <th>Enrollment </th>
+        <th>Batch</th>
+      </tr>
+      <tr *ngFor="let student of students; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{student.fullname}}</td>
+        <td>{{student.enrollment}}</td>
+        <td>
+          <div class="checkbox">
+            <input type="checkbox" *ngIf="!student.batch" (click)="CreateBatch(student)">
+            <span *ngIf="student.batch">{{student.batch}}</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="batch" *ngIf="batchStudents.length>0">
+    <form style="margin-top:20px;">
+      <div class="row">
+        <div class="col-8">
+          <div class="form-group">
+            <label for="Name">Batch Name:</label>
+            <input type="text" [(ngModel)]="BatchName" class="form-control" name="batchName">
+          </div>
+        </div>
+        <div class="col-4">
+          <button class="btn btn-danger my-4" [disabled]="!BatchName" (click)="SaveBatch()" type="submit">
+            <i class="fa fa-arrow-circle-right"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
