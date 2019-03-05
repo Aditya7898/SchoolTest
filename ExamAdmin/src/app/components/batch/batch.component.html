@@ -1,67 +1,182 @@
-<div class="container">
-  <h1 style="margin-top:20px">Create Batch</h1>
+<div class="container" style="margin-bottom:150px;">
+
+
   <div class="row">
     <div class="col">
+      <h6 (click)="toggle('toggle1')">Assign Batches class wise</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle2'); GetAllStudents()">Create New Betch</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle3');">See All Batches</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle4');">See Students batchwise</h6>
+    </div>
+  </div>
+
+  <!-- Search by class and allot batch -->
+  <div class="search" *ngIf="toggle1">
+
+    <div class="row">
+      <div class="col">
+        <form style="margin-top:20px;">
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label for="Name">choose class:</label>
+                <select class="form-control" [(ngModel)]="class" name="class">
+                  <option value="" selected disabled>Select class</option>
+                  <option *ngFor="let class of classes" [ngValue]="class">{{ class }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-danger my-4" [disabled]="!class" (click)="GetStudentsOfClass()" type="submit">
+                <i class="fa fa-arrow-circle-right"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col"></div>
+      <div class="col-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="stdentsTable" *ngIf="students.length>0">
+        <table id="t01">
+          <tr>
+            <th>No.</th>
+            <th>Student Name</th>
+            <th>Enrollment </th>
+            <th>Batch</th>
+          </tr>
+          <tr *ngFor="let student of students; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{student.fullname}}</td>
+            <td>{{student.enrollment}}</td>
+            <td>
+              <div class="checkbox">
+                <input type="checkbox" *ngIf="!student.batchName" (click)="CreateBatch(student)">
+                <span *ngIf="student.batchName">{{student.batchName}}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row batch" *ngIf="batchStudents.length>0">
+        <form style="margin-top:20px;">
+          <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <label for="Name">choose batch:</label>
+                    <select class="form-control" name="batch" [(ngModel)]="batch">
+                      <option value="" selected disabled>Select Batch</option>
+                      <option *ngFor="let batch of AllValidBatches" [ngValue]="batch">{{ batch.batchName }}</option>
+                    </select>
+                  </div>
+              <p *ngIf="AllBatches.length<=0">No batch exists..</p>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-danger my-4" [disabled]="!batch" (click)="AssignStudents()" type="submit">
+                <i class="fa fa-arrow-circle-right"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--End Search By class and allot -->
+
+
+  <!-- Create new Batch -->
+  <div class="row" *ngIf="toggle2">
+    <div class="col"></div>
+    <div class="col">
+      <form [formGroup]="batchRegisterForm" (ngSubmit)="createNewBatch()">
+        <div class="form-group">
+          <label for="name">Batch Name: </label>
+          <input type="text" formControlName="batchName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="startingDate">start Date: </label>
+          <input type="Date" formControlName="startDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date: </label>
+          <input type="Date" formControlName="endDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="allotedTo">Alloted To:</label>
+          <input type="text" formControlName="allotedTo" class="form-control">
+        </div>
+        <button type="submit" [disabled]="!batchRegisterForm.valid" class="btn btn-primary">Create Batch</button>
+      </form>
+    </div>
+    <div class="col"></div>
+  </div>
+  <!-- End Creating new Batch -->
+
+  <!-- Getting all the batches -->
+  <div class="stdentsTable" *ngIf="toggle3">
+    <table id="t01" *ngIf="AllBatches.length>0">
+      <tr>
+        <th>No.</th>
+        <th>Batch Name</th>
+        <th>Batch ID </th>
+        <th>start Date </th>
+        <th>Ending Date</th>
+        <th>Alloted To </th>
+        <th>Created At </th>
+        <th>Created BY </th>
+        <!-- <th>Total Students</th> -->
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      <tr *ngFor="let batch of AllBatches; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{batch.batchName}}</td>
+        <td>{{batch.batchId}}</td>
+        <td>{{DateFormat(batch.startDate)}}</td>
+        <td>{{DateFormat(batch.endDate)}}</td>
+        <td>{{batch.allocatedTo}}</td>
+        <td>{{DateFormat(batch.createdAt)}}</td>
+        <td>{{batch.createdBy}}</td>
+        <!-- <td>{{batch.countStudent}} </td>-->
+        <td>Edit</td>
+        <td (click)="DeleteBatch(batch.batchId)">Delete</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Get Students batch wise -->
+  <div class="container">
+    <div class="choose_batch"  *ngIf="toggle4">
       <form style="margin-top:20px;">
         <div class="row">
           <div class="col-8">
-            <div class="form-group">
-              <label for="Name">choose class:</label>
-              <select class="form-control" [(ngModel)]="class" name="class">
-                <option value="" selected disabled>Select class</option>
-                <option *ngFor="let class of classes" [ngValue]="class">{{ class }}</option>
-              </select>
-            </div>
+              <div class="form-group">
+                  <label for="Name">choose batch:</label>
+                  <select class="form-control" name="batch" [(ngModel)]="batch">
+                    <option value="" selected disabled>Select Batch</option>
+                    <option *ngFor="let batch of AllBatches" [ngValue]="batch">{{ batch.batchName }}</option>
+                  </select>
+                </div>
+            <p *ngIf="AllBatches.length<=0">No batch exists..</p>
           </div>
           <div class="col-4">
-            <button class="btn btn-danger my-4" [disabled]="!class" (click)="GetStudentsOfClass()" type="submit">
+            <button class="btn btn-danger my-4" [disabled]="!batch" (click)="GetStudentsByBatch()" type="submit">
               <i class="fa fa-arrow-circle-right"></i>
             </button>
           </div>
         </div>
       </form>
     </div>
-    <div class="col"></div>
-    <div class="col-1"></div>
-  </div>
-
-  <div class="stdentsTable" *ngIf="students.length>0">
-    <table id="t01">
-      <tr>
-        <th>No.</th>
-        <th>Student Name</th>
-        <th>Enrollment </th>
-        <th>Batch</th>
-      </tr>
-      <tr *ngFor="let student of students; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{student.fullname}}</td>
-        <td>{{student.enrollment}}</td>
-        <td>
-          <div class="checkbox">
-            <input type="checkbox" *ngIf="!student.batch" (click)="CreateBatch(student)">
-            <span *ngIf="student.batch">{{student.batch}}</span>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="batch" *ngIf="batchStudents.length>0">
-    <form style="margin-top:20px;">
-      <div class="row">
-        <div class="col-8">
-          <div class="form-group">
-            <label for="Name">Batch Name:</label>
-            <input type="text" [(ngModel)]="BatchName" class="form-control" name="batchName">
-          </div>
-        </div>
-        <div class="col-4">
-          <button class="btn btn-danger my-4" [disabled]="!BatchName" (click)="SaveBatch()" type="submit">
-            <i class="fa fa-arrow-circle-right"></i>
-          </button>
-        </div>
-      </div>
-    </form>
   </div>
 </div>

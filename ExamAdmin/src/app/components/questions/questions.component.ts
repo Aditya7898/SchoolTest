@@ -10,9 +10,9 @@ const URL = `http://localhost:3000/api/onlinetest/upload`;
   styleUrls: ['./questions.component.css']
 })
 export class QuestionsComponent implements OnInit {
-  categories = ['c1', 'c2', 'c3', 'c4', 'c5'];
-  file: any;
-  category: any;
+  // categories = ['c1', 'c2', 'c3', 'c4', 'c5'];
+  // file: any;
+  // category: any;
 
   uploader: FileUploader = new FileUploader({ url: URL });
   attechmentList: any = [];
@@ -20,7 +20,7 @@ export class QuestionsComponent implements OnInit {
   constructor(private questionService: QuestionService) {
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.attechmentList.push(JSON.parse(response));
-      alert('uploaded');
+      // alert('uploaded');
     };
   }
 

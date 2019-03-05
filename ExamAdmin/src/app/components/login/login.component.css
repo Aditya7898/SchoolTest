@@ -1,0 +1,22 @@
+.loginForm {
+    margin-top: 100px;
+    padding: 15px;
+    border: 1px solid #9E9E9E;
+}
+.error{
+    color: red;
+}
+
+.loginForm{
+        animation: yourAnimation 3s forwards 0s ease;    
+}
+@keyframes yourAnimation{
+    0%{
+        transform: rotate(0) translateY(-15%);
+        opacity: 0;
+        }
+    100%{
+        transform: rotate(0) translateY(0);
+        opacity: 1;
+        }
+}

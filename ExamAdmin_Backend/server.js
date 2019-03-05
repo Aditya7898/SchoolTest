@@ -40,12 +40,16 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true });
 const auth = require('./routes/authRoutes');
 const student = require('./routes/students');
 const batch = require('./routes/batchRoutes');
+const admin = require('./routes/adminRoutes');
 const question = require('./routes/questions');
+const test = require('./routes/testRoute');
 
-app.use('/api/onlinetest', auth);
+// app.use('/api/onlinetest', auth);
 app.use('/api/onlinetest', student);
 app.use('/api/onlinetest', batch);
 app.use('/api/onlinetest', question);
+app.use('/api/onlinetest', test);
+app.use('/api/onlinetest', admin);
 
 app.listen(Port, () => {
     console.log('server is running on port 3000')

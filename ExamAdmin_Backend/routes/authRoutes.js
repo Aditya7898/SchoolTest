@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const AuthCtrl = require('../controllers/auth');
+// const express = require('express');
+// const router = express.Router();
+// const AuthCtrl = require('../controllers/auth');
 
-router.get('/test', (req, res) => {
-    res.json({ msg: 'route works' });
-});
+// router.get('/test', (req, res) => {
+//     res.json({ msg: 'route works' });
+// });
 
-router.post('/register', AuthCtrl.CreateStudent);
-router.post('/login', AuthCtrl.LoginUser);
+// router.post('/user/login', AuthCtrl.LoginUser);
 
-module.exports = router;
+// module.exports = router;

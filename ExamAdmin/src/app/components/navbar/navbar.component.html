@@ -3,19 +3,28 @@
   <a class="navbar-brand" href="#">Online Exam</a>
 
   <!-- Links -->
-  <ul class="navbar-nav">
+  <ul class="nav navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/register']">Add Student</a>
+      <a class="nav-link" [routerLink]="['/common/register']">Manage Students</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/batch']">Create batch</a>
+      <a class="nav-link" [routerLink]="['/common/batch']">Create batch</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/uploadquestions']">Upload Questions</a>
+      <a class="nav-link" [routerLink]="['/common/uploadquestions']">Upload Questions</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/fetchquestions']">Search Questions</a>
-      </li>
+      <a class="nav-link" [routerLink]="['/common/createtest']">Create Test</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/common/admin']">Manage Admins</a>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav navbar-right">
+    <li class="nav-item">
+      <a class="nav-link" (click)="Logout()">Logout</a>
+    </li>
   </ul>
 </nav>
-
+<router-outlet></router-outlet>

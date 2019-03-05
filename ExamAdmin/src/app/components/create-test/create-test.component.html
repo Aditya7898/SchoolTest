@@ -1,0 +1,54 @@
+<p>
+  create-test works!
+</p>
+<div class="QuestionSelection" *ngIf="toggle">
+    <app-fetch-questions (testDataEvent)="receive($event)"></app-fetch-questions>
+</div>
+
+<div class="row">
+  <div class="col"></div>
+  <div class="col">
+
+      <div class="col" *ngIf="selectedQuestions.length>0">
+          <div class="sticky">
+            <h6 style="background:grey; color:#fff; padding:5px;">Total Marks Of selected Questions: {{totalMarks}}</h6>
+            <h6 style="background:grey; color:#fff; padding:5px;">Total selected Questions: {{selectedQuestions.length}}</h6>
+            <br>
+            <form [formGroup]="testForm" (ngSubmit)="OnSubmit()">
+              
+              <div class="form-group">
+                <label for="testName">Test Name: </label>
+                <input type="text" formControlName="testName" class="form-control">
+              </div>
+        
+              <div class="form-group">
+                <label for="testName">Passing Marks: </label>
+                <input type="number" formControlName="passingMarks" class="form-control">
+              </div>
+        
+              <div class="form-group">
+                <label for="startDate">Start Date: </label>
+                <input type="datetime-local" formControlName="startDate" id="meeting-time" value="2018-02-06T19:30" min="2019-02-01T00:00" max="2020-06-14T00:00">
+              </div>
+        
+              <div class="form-group">
+                <label for="startDate">End Date: </label>
+                <input type="datetime-local" formControlName="endDate" id="meeting-time" value="2018-02-06T19:30" min="2019-02-01T00:00" max="2020-06-14T00:00">
+              </div>
+        
+              <div class="form-group">
+                  <label for="testName">Test Duration: (in min.) </label>
+                  <input type="number" formControlName="testDuration" class="form-control">
+                </div>
+
+              <div class="form-group">
+                <label for="testName">Test Description: </label>
+                <input type="text" formControlName="testDescription" class="form-control">
+              </div>
+              <button class="btn btn-dark" [disabled]="!testForm.valid">create test</button>
+            </form>
+          </div>
+        </div>
+  </div>
+  <div class="col"></div>
+</div>

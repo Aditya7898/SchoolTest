@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col">
+      <table id="t01" *ngIf="student">
+        <tr>
+          <th>Student Name</th>
+          <th>Enrollment </th>
+          <th>Class</th>
+          <th>Batch</th>
+          <th>EditBatch</th>
+        </tr>
+        <tr>
+          <td>{{student.fullname}}</td>
+          <td>{{student.enrollment}}</td>
+          <td>{{student.class}}</td>
+          <td>
+            <div class="checkbox" *ngIf="!student.batchName">
+              <p>Not assigned</p>
+            </div>
+            <span *ngIf="student.batchName">{{student.batchName}}</span>
+          </td>
+          <td>
+            <div class="edit">
+              <button class="btn btn-primary" (click)="toggle()">Edit</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="choosebatch" *ngIf="editBatch">
+        <h6>For choosing multiple use ctrl+click</h6>
+        <div class="form-group">
+          <label for="Name">choose batch:</label>
+          <select class="form-control" [(ngModel)]="batches" name="batch" multiple>
+            <option value="" selected disabled>Select Batch</option>
+            <option *ngFor="let batch of validBatches" [ngValue]="batch">{{ batch.batchName }}</option>
+          </select>
+        </div>
+        <button class="btn btn-danger" [disabled]="!batches" (click)="assignBatchTest()">assign</button>
+        <!-- <button class="btn btn-danger" [disabled]="!batch" (click)="assignBatch()">assign</button> -->
+      </div>
+    </div>
+
+  </div>
+</div>

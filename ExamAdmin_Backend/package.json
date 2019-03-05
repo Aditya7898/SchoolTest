@@ -17,6 +17,7 @@
     "joi": "^14.3.1",
     "jsonwebtoken": "*",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "mongoose": "*",
     "multer": "^1.4.1"
   },

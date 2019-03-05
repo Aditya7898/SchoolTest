@@ -1,39 +1,42 @@
 <div class="container">
   <div class="row">
     <div class="col-10">
-        <form>
-            <h5>Find questions according to category..</h5>
-            <div class="row">
-              <div class="col-8">
-                <div class="form-group">
-                  <!-- <label for="category">Category</label> -->
-                  <select class="form-control" [(ngModel)]="category" name="category">
-                    <option value="" selected disabled>Select Category</option>
-                    <option *ngFor="let category of categories" [ngValue]="category">{{ category }}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-                <button class="btn btn-danger" [disabled]="!category" (click)="searchQuestion()">
-                  <i class="fa fa-arrow-circle-right"></i>
-                </button>
-              </div>
+      <form>
+        <h5>Find questions according to category..</h5>
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <!-- <label for="category">Category</label> -->
+              <select class="form-control" [(ngModel)]="category" name="category">
+                <option value="" selected disabled>Select Category</option>
+                <option *ngFor="let category of categories" [ngValue]="category">{{ category }}</option>
+              </select>
             </div>
-          </form>
+          </div>
+          <div class="col">
+            <button class="btn btn-danger" [disabled]="!category" (click)="searchQuestion()">
+              <i class="fa fa-arrow-circle-right"></i>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
     <div class="col"></div>
     <div class="col"></div>
   </div>
 
   <div class="row" *ngIf="questions">
-    <div class="col-10">
-      <table class="table" *ngFor="let question of questions; let i = index">
+    <div class="col-8">
+      <table class="table" *ngFor="let question of questions; let i = index" style="background: #cbe0cb;">
         <thead>
           <tr>
             Question{{i+1}}. {{question.question}}
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>Weightage <span>{{ question.weightage}}</span></td>
+          </tr>
           <tr>
             <td>(a). {{question.option1}}</td>
             <td>(b). {{question.option2}}</td>
@@ -43,8 +46,50 @@
             <td>(d). {{question.option4}}</td>
           </tr>
         </tbody>
+        <div class="row">
+          <div class="col-5">
+            Add to Test:
+          </div>
+          <div class="col-1">
+            <input type="checkbox" class="form-control" (click)="addToTest(question._id, question.weightage)" style="margin-top:9px;">
+          </div>
+        </div>
       </table>
     </div>
-    <div class="col"></div>
+    <div class="col" *ngIf="totalQuestionsSelected>0">
+        <h6 style="background:grey; color:#fff; padding:5px;">Total Marks Of selected Questions: {{totalMarks}}</h6>
+        <h6 style="background:grey; color:#fff; padding:5px;">Total selected Questions: {{totalQuestionsSelected}}</h6>
+        <br>
+        <button class="btn btn-dark" (click)="createTest()">create test</button>
+    </div>
+
+    <!-- <div class="col" *ngIf="totalQuestionsSelected>0">
+      <div class="sticky">
+        <h6 style="background:grey; color:#fff; padding:5px;">Total Selected Questions: {{totalQuestionsSelected}}</h6>
+        <br>
+        <form>
+          <div class="form-group">
+            <label for="testName">Test Name: </label>
+            <input type="text" formControlName="testName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="startDate">Start Date: </label>
+            <input type="datetime-local" [(ngModel)]="startDate" id="meeting-time" name="meeting-time" value="2018-02-06T19:30" min="2019-02-01T00:00"
+              max="2020-06-14T00:00">
+          </div>
+          <div class="form-group">
+            <label for="startDate">End Date: </label>
+            <input type="datetime-local" [(ngModel)]="endDate" id="meeting-time" name="meeting-time" value="2018-02-06T19:30" min="2019-02-01T00:00"
+              max="2020-06-14T00:00">
+          </div>
+          <div class="form-group">
+            <label for="testName">Test Name: </label>
+            <input type="text" formControlName="testName" class="form-control">
+          </div>
+          <button class="btn btn-dark" (click)="createTest()" [disabled]="!startDate && !endDate">create test</button>
+        </form>
+      </div>
+    </div> -->
+
   </div>
 </div>

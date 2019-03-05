@@ -3,9 +3,9 @@ const router = express.Router();
 const fs = require('fs');
 const csv = require('fast-csv');
 const multer = require('multer');
-const Question = require('../models/QuestionsModel');
 const Helpers = require('../Helpers/helper');
 const httpstatus = require('http-status-codes');
+const Question = require('../models/QuestionsModel');
 
 var store = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -22,9 +22,8 @@ var upload = multer({ storage: store }).single('file');
 //---------------- UPLOAD QUESTIONS --------------
 router.post('/upload', function (req, res, next) {
     console.log('first');
-    console.log(req.params.category);
-
     upload(req, res, function (err) {
+        console.log("req", req.body);
         if (err) {
             return res.status(501).json({ error: err });
         }

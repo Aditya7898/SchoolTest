@@ -1,0 +1,182 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <h6 (click)="toggle('toggle1')">Create Single Student</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle2'); GetAllStudents()">Fetch All Students</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle3')">Get Student By Enrollment</h6>
+    </div>
+    <div class="col">
+      <h6 (click)="toggle('toggle4')">Upload Students in Bulk</h6>
+    </div>
+  </div>
+
+  <!-- Create New Student -->
+  <div class="row" *ngIf="toggle1">
+    <div class="col">
+      <div class="form">
+        <h3 class="heading">Add New Student</h3>
+        <div id="errorMsg" *ngIf="errorMsg">
+          <span>{{errorMsg}}</span>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="OnSubmit()">
+          <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" formControlName="fullname" class="form-control">
+            <span class="error" *ngIf="!registerForm.controls['fullname'].valid && registerForm.controls['fullname'].touched">
+              fullname is required
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="roll">Roll No.</label>
+            <input type="text" formControlName="enrollment" class="form-control">
+            <span class="error" *ngIf="!registerForm.controls['enrollment'].valid && registerForm.controls['enrollment'].touched">
+              enrollment is required
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="class">Class</label>
+            <select class="form-control" formControlName="class">
+              <option value="" selected disabled>Select class</option>
+              <option *ngFor="let class of classes">{{ class }}</option>
+            </select>
+            <span class="error" *ngIf="!registerForm.controls['class'].valid && registerForm.controls['class'].touched">
+              class is required
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="Name">choose batch:</label>
+            <select class="form-control" formControlName="batch">
+              <option value="" selected disabled>Select Batch</option>
+              <option *ngFor="let batch of AllValidBatches" [ngValue]="batch">{{ batch.batchName }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone No.</label>
+            <input type="number" formControlName="phone" class="form-control">
+            <span class="error" *ngIf="!registerForm.controls['phone'].valid && registerForm.controls['phone'].touched">
+              contact number is required
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="Address">Address</label>
+            <input type="text" formControlName="address" class="form-control">
+            <span class="error" *ngIf="!registerForm.controls['address'].valid && registerForm.controls['address'].touched">
+              address is required
+            </span>
+          </div>
+          <button class="btn btn-danger my-4" [disabled]="!registerForm.valid" type="submit">
+            Create User
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-3"></div>
+    <div class="col-3"></div>
+  </div>
+  <!-- Create New Student End -->
+
+  <!-- All the Students -->
+  <div class="row" *ngIf="toggle2">
+    <div class="col">
+      <div class="stdentsTable" *ngIf="AllStudents.length>0">
+        <table id="t01">
+          <tr>
+            <th>No.</th>
+            <th>Student Name</th>
+            <th>Enrollment </th>
+            <th>Class</th>
+            <th>Batch</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          <tr *ngFor="let student of AllStudents; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{student.fullname}}</td>
+            <td>{{student.enrollment}}</td>
+            <td>{{student.class}}</td>
+            <td>
+              <div class="checkbox">
+                <span *ngIf="!student.batchName">Not assigned</span>
+                <span *ngIf="student.batchName">{{student.batchName}}</span>
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-primary" (click)="editStudentPage(student)">Edit</button>
+            </td>
+            <td>
+              <button class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- End All the students -->
+
+  <!-- Get Student by enrollment -->
+  <div class="row" *ngIf="toggle3">
+    <div class="col">
+      <input type="text" [(ngModel)]="enrollment" class="form-control" id="enrollmentInput" placeholder="enrollment number">
+      <button class="btn btn-danger" [disabled]="!enrollment" (click)="GetstudentByEnrollment()">
+        <i class="fa fa-arrow-circle-right"></i>
+      </button>
+
+      <table id="t01" *ngIf="student">
+        <tr>
+          <th>No.</th>
+          <th>Student Name</th>
+          <th>Enrollment </th>
+          <th>Class</th>
+          <th>Batch</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        <tr>
+          <td>{{1}}</td>
+          <td>{{student.fullname}}</td>
+          <td>{{student.enrollment}}</td>
+          <td>{{student.class}}</td>
+          <td>
+            <div class="checkbox">
+                <span *ngIf="!student.batchName">Not assigned</span>
+              <span *ngIf="student.batchName">{{student.batchName}}</span>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="editStudentPage(student)">Edit</button>
+          </td>
+          <td>
+            <button class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col"></div>
+  </div>
+  <!-- End Get Student by enrollment -->
+
+
+  <!-- Bulk upload students -->
+  <div class="bulkStudents" *ngIf="toggle4">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <form>
+          <h5>Upload students file...</h5>
+          <div class="form-group">
+            <input type="file" name="fileUplaod" id="fileUpload" multiple ng2FileSelect [uploader]="uploader">
+          </div>
+          <button class="btn btn-dark" [disabled]="!uploader.queue[0]" (click)="uploader.queue[0].upload()">Submit</button>
+        </form>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+</div>
